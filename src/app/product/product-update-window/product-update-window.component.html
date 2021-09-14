@@ -1,0 +1,63 @@
+<form [formGroup]="_productForm" (ngSubmit)="onSubmit()">
+
+  <div class="p-field p-grid">
+    <label for="firstname3" class="p-col-fixed" style="width:100px">Barcode </label>
+    <div class="p-col">
+      <input id="firstname3" type="text" pInputText formControlName="id_product" placeholder="0" disabled>
+    </div>
+  </div>
+
+  <div class="p-field p-grid">
+    <label for="firstname3" class="p-col-fixed" style="width:100px">Περιγραφή Προΐόντος</label>
+    <div class="p-col">
+      <input id="firstname3" type="text" pInputText formControlName="description_product"
+        placeholder="περιγραφη προιον">
+    </div>
+
+  </div>
+  <div class="p-field p-grid">
+    <label for="firstname3" class="p-col-fixed" style="width:100px">Ποσότητα</label>
+    <div class="p-col">
+      <input id="firstname3" type="text" pInputText formControlName="quantity_product"
+        placeholder="2000">
+    </div>
+  </div>
+  <div class="p-field p-grid">
+    <label for="firstname3" class="p-col-fixed" style="width:100px">ID Ραφιού</label>
+    <div class="p-col" formGroupName="shelve_product_id">
+      <input id="firstname3" type="text" pInputText formControlName="id_shelve"
+        placeholder="1">
+    </div>
+  </div>
+
+
+  <!-- KOYMPI Update -->
+  <button [disabled]='!_productForm.valid' pButton type="submit" label="Ενημέρωση Εγγραφής" class="p-button-success">
+  </button>
+
+  <!-- ΚΟΥΜΠΙ ΔΙΑΓΡΑΦΗΣ -->
+  <button (ngSubmit)="onReset()" pButton type="reset" label="Καθαρισμός Πεδίων" class="p-button-danger"
+    style="margin-left: 3px;" disabled>
+  </button>
+
+
+</form>
+<div style="margin-top: 5px;">
+  <!-- ΚΟΥΜΠΙ ΟΔΗΓΙΩΝ -->
+  <button class="p-button-info" pButton label="Πληροφορίες" (click)="displayEditDialog = true">
+  </button>
+</div>
+
+
+
+<!-- κειμενο για το κουμπι των οδηγιων -->
+<p-dialog header="Φόρμα εγγραφής" [modal]="true" [(visible)]="displayEditDialog">
+  <div>
+    <h3>Lorem ipsum dolor sit amet.</h3>
+    <ul>
+      <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam quam nam, quibusdam expedita quasi officia
+        dignissimos dicta? Dolore quod deserunt pariatur officia mollitia unde aspernatur necessitatibus, vero facere
+        accusamus voluptas.</li>
+    </ul>
+  </div>
+</p-dialog>

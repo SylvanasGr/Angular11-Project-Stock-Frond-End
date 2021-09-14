@@ -1,0 +1,3 @@
+input[readonly]:not(.locked) {
+  background-color: transparent;
+}

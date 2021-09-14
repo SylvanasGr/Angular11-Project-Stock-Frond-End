@@ -1,0 +1,41 @@
+<p-toast>
+  <ng-template let-message pTemplate="message">
+      <div innerHtml="{{message.detail}}"></div>
+  </ng-template>
+</p-toast>
+<p-blockUI [blocked]="toitsuBlockUiService.getUiBlocked()"></p-blockUI>
+<p-confirmDialog header="{{'global.confirm' | translate}}"
+                 acceptLabel="{{'global.yes' | translate}}"
+                 acceptButtonStyleClass="p-button-primary"
+                 rejectLabel="{{'global.no' | translate}}"
+                 rejectButtonStyleClass="p-button-warning"
+                 defaultFocus="none">
+</p-confirmDialog>
+<div class="layout-wrapper" (click)="onLayoutClick()"
+     [ngClass]="{'layout-wrapper-overlay-sidebar': isOverlay(),
+                 'layout-wrapper-slim-sidebar': isSlim(),
+                 'layout-wrapper-horizontal-sidebar': isHorizontal(),
+                 'layout-wrapper-overlay-sidebar-active': overlayMenuActive,
+                 'layout-wrapper-sidebar-inactive': staticMenuDesktopInactive,
+                 'layout-wrapper-sidebar-mobile-active': staticMenuMobileActive,
+                 'p-ripple-disabled': !ripple}">
+    <app-toitsu-header></app-toitsu-header>
+
+  <div class="layout-sidebar" (click)="onMenuClick($event)"
+       [ngClass]="{'layout-sidebar-dark': menuScheme !== 'light',
+         'layout-sidebar-gradient':  menuScheme === 'gradient'}">
+    <div class="sidebar-scroll-content">
+      <app-toitsu-nav></app-toitsu-nav>
+    </div>
+  </div>
+
+  <div class="layout-main">
+    <app-toitsu-breadcrumb></app-toitsu-breadcrumb>
+
+    <div class="layout-main-content">
+      <router-outlet></router-outlet>
+    </div>
+
+    <app-toitsu-footer></app-toitsu-footer>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+{
+  "property.kaek": "ΚΑΕΚ",
+  "property.description": "Περιγραφή",
+  "property.propertyTypeId": "Τύπος Ακινήτου",
+  "property.manufactureDate": "Ημερομηνία Κατασκευής",
+  "property.objectiveValue": "Αντικειμενική Αξία",
+  "property.status": "Κατάσταση",
+  "property.isActive": "Ενεργό",
+  "property.comments": "Παρατηρήσεις",
+  
+  "property.view.propertyData": "Στοιχεία Ακινήτου",
+  "property.view.moreData": "Επιπλέον Στοιχεία",
+  
+  "property.view.tab.urbanFixes": "Πολεοδομικές Τακτοποιήσεις",
+  "property.view.tab.urbanFixes.item": "Τακτοποίηση",
+  
+  "property.view.tab.propertyWeights": "Βάρη",
+  
+  "property.view.selectAmphibian": "Επιλογή Αμφιβίου",
+  "property.view.setObjectiveValue": "Ορισμός Αντικ. Αξίας",
+  "property.view.setTestPropertyId": "Ορισμός Δοκιμ. Ακινήτου",
+  
+  "property.list.showKaek": "Προβολή ΚΑΕΚ",
+  "property.list.showDescription": "Προβολή Περιγραφής",
+  
+  "property.select.label": "Ακίνητο",
+  "property.select.dialogTitle": "Επιλογή Ακινήτου"
+}

@@ -1,0 +1,274 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+/* General layout */
+
+.layout-menu, .layout-topbar, .layout-footer, .route-bar {
+  font-family: Segoe UI, sans-serif;
+}
+
+.p-inputtext, .p-button-icon-only, .p-tooltip .p-tooltip-text {
+  padding: 0.286em  0.4em !important;
+}
+
+p-dropdownItem > li {
+  padding-top: 0.286em !important;
+  padding-bottom: 0.286em !important;
+}
+
+.p-datepicker table td {
+  padding: 0.1em !important;
+}
+
+.p-panel-header, .p-accordion-header-link {
+  padding: 0.571em 1.143em !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  padding: 0.286em 0.571em;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.286em 0.571em;
+  word-break: break-word;
+}
+
+.p-button {
+  padding-top: 0.286em !important;
+  padding-bottom: 0.286em !important;
+  align-items: baseline;
+  color: #ffffff !important;
+}
+
+.layout-wrapper .layout-sidebar .layout-menu a {
+  margin-bottom: 0 !important;
+  display: flex !important;
+  align-items: baseline;
+}
+
+.p-toast {
+  width: 35rem !important;
+}
+
+.p-toast-icon-close {
+  position: absolute !important;
+  top: .25em !important;
+  right: .25em !important;
+}
+
+@media screen and (min-width: 40.063em) {
+  .p-toast-top-right {
+    top: 20px !important;
+    right: 20px !important;
+  }
+}
+
+@media screen and (max-width: 40.064em) {
+  .p-toast-top-right {
+    top: 0 !important;
+    right: 0 !important;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .p-grid.p-align-center > label {
+    text-align: end;
+    padding: 0.25em;
+  }
+}
+
+@media screen and (max-width: 577px) {
+  .p-grid.p-align-center > label {
+    padding-bottom: 0;
+  }
+}
+
+.language-overlaypanel div {
+  padding: 0.5em !important;
+}
+
+.language-overlaypanel a {
+  color: black;
+}
+
+.p-dropdown {
+  min-width: initial;
+}
+
+.p-dropdown .p-dropdown-label {
+  white-space: initial;
+  padding-right: 45px !important;
+}
+
+textarea {
+  resize: none;
+}
+
+.p-radiobutton-label {
+  margin-right: 0.5rem;
+}
+
+.p-datatable .p-sortable-column:focus, .p-paginator-element:focus, .p-accordion-header-link:focus, .p-tabview-nav-link:focus {
+  box-shadow: none !important;
+}
+
+.p-button:focus, .p-dialog-header-icon:focus {
+  box-shadow: none !important;
+}
+
+.button-container > button {
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 2px;
+}
+
+.p-datatable.p-datatable-responsive .p-datatable-tbody > tr:hover > td {
+  border: 1px solid #d6d7d9 !important;
+}
+
+.p-datatable-loading-overlay {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+@media screen and (max-width: 40em) {
+
+  .p-datatable.p-datatable-responsive colgroup col:first-child {
+    width: 100% !important;
+  }
+
+  .p-datatable.p-datatable-responsive colgroup col:not(:first-child) {
+    width: 0 !important;
+  }
+
+  .p-datatable.p-datatable-responsive .p-datatable-tbody > tr > td {
+    border: 1px solid #e9ecef !important;
+  }
+
+  .p-datatable.p-datatable-responsive .p-datatable-tbody > tr > td > span:first-child {
+    text-align: left !important;
+    float: left;
+  }
+
+  .p-datatable.p-datatable-responsive .p-datatable-tbody > tr > td > span:last-child {
+    float: right;
+  }
+
+  .p-datatable.p-datatable-responsive .p-datatable-tbody > tr > td > a:last-child {
+    float: right;
+  }
+}
+
+@media not screen and (max-width: 40em) {
+  .p-datatable.p-datatable-responsive .p-datatable-tbody > tr:hover > td {
+    border-top: 0 !important;
+  }
+}
+
+.p-paginator .p-dropdown {
+  height: inherit;
+}
+
+p-sortIcon {
+  font-size: 10px;
+}
+
+.p-sortable-column-icon {
+  display: inline-flex;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+/* Readonly - disabled */
+
+input[readonly], textarea[readonly] {
+  background-color: #E0E0E0;
+}
+
+p-dropdown[ng-reflect-readonly="true"] div.p-dropdown {
+  background-color: #E0E0E0;
+  cursor: initial;
+}
+
+p-dropdown[ng-reflect-readonly="true"] span.p-dropdown-label {
+  background-color: #E0E0E0;
+}
+
+p-dropdown[ng-reflect-readonly="true"] div.p-dropdown-trigger {
+  background-color: #E0E0E0;
+}
+
+p-dropdown .p-disabled {
+  background-color: #E0E0E0;
+  opacity: initial;
+  user-select: auto;
+  pointer-events: auto;
+  cursor: auto !important;
+}
+
+p-dropdown .p-disabled span {
+  pointer-events: auto;
+  cursor: auto !important;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+/* Custom classes */
+
+.margin-auto {
+  margin: auto;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.padding-right-5 {
+  padding-right: 5px;
+}
+
+.padding-bottom-20 {
+  padding-bottom: 20px;
+}
+
+.text-align-start {
+  text-align: start;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-end {
+  text-align: end;
+}
+
+.flex-grow {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.input-display {
+  border: none !important;
+  background-color: initial !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.color-red {
+  color: red;
+}
+
+.color-steelblue {
+  color: steelblue;
+}
+
+.no-border-top {
+  border-top: none !important;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+

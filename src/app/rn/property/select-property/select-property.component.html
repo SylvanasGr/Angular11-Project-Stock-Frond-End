@@ -1,0 +1,11 @@
+<div class="p-inputgroup">
+  <input type="text" pInputText value="{{propertyLabel}}" readonly [ngClass]="{'locked': disabled}" id="{{inputId}}">
+  <button pButton type="button" *ngIf="!disabled && !hasId()"
+          class="p-button-primary" icon="fa fa-search" aria-label="Search"
+          pTooltip="{{'global.search' | translate}}" (click)="openDialog()">
+  </button>
+  <button pButton type="button" *ngIf="!disabled && hasId()"
+          class="p-button-primary" icon="fa fa-times" aria-label="Remove"
+          pTooltip="{{'global.remove' | translate}}" (click)="removeRecord()">
+  </button>
+</div>

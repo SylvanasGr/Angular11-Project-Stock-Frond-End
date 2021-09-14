@@ -1,0 +1,104 @@
+<div class="p-grid">
+  <div class="p-col-12 button-container">
+    <button pButton type="button" label="{{'global.newRecord' | translate}}" class="p-button-primary"
+            icon="fa fa-plus" iconPos="left" (click)="newRecord()">
+    </button>
+    <button pButton type="button" label="{{'property.view.selectAmphibian' | translate}}" class="p-button-info"
+            icon="fa fa-qq" iconPos="left"
+            (click)="openSelectAmphibian()">
+    </button>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-grid p-fluid">
+        
+        <div class="p-col-12 p-xl-6">
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'property.kaek' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.kaek">
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'property.description' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.description">
+            </div>
+          </div>
+          
+        </div>
+        
+        <div class="p-col-12 p-xl-6">
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'property.manufactureDate' | translate}}</label>
+            <div class="p-col-12 p-sm-8 p-d-inline-flex p-align-center">
+              <app-toitsu-calendar class="flex-grow" [(model)]="args.manufactureDateAfter"></app-toitsu-calendar>
+              &nbsp;-&nbsp;
+              <app-toitsu-calendar class="flex-grow" [(model)]="args.manufactureDateBefore"></app-toitsu-calendar>
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'property.select.label' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <app-select-property [(model)]="testArgs.testPropertyId"></app-select-property>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="p-grid text-align-center">
+        <div class="p-col-12 button-container">
+          <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-primary"
+                  icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+          </button>
+          <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-warning"
+                  icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+          </button>
+        </div>
+      </div>
+      
+    </p-panel>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [first]="paging.first"
+                      [rows]="paging.rows"
+                      [sortField]="paging.sortField"
+                      [sortOrder]="paging.sortOrder"
+                      [args]="args"
+                      [viewLink]="viewLink"
+                      [excel]="true"
+                      [exportModel]="exportModel"
+                      [loadOnInit]="false"
+                      (loadComplete)="loadComplete($event)"
+                      (loadError)="loadError($event)"
+                      (rowClicked)="rowClicked($event)">
+      <ng-template let-rowData #cell1>
+        <button pButton type="button" class="p-button-primary" pTooltip="{{'global.display' | translate}}" tooltipPosition="top"
+                icon="fa fa-eye" iconPos="left" (click)="showKaekClicked(rowData)">
+        </button>
+      </ng-template>
+      <ng-template let-rowData #cell2>
+        <button pButton type="button" class="p-button-info" pTooltip="{{'global.display' | translate}}" tooltipPosition="top"
+                icon="fa fa-eye" iconPos="left" (click)="showDescriptionClicked(rowData)">
+        </button>
+      </ng-template>
+    </app-toitsu-table>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-grid p-fluid">
+        
+        <div class="p-col-12 p-xl-6">
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'property.propertyTypeId' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <p-dropdown [(ngModel)]="args.propertyTypeId" [options]="propertyTypes" optionValue="id" optionLabel="description"
+                          placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true">
+              </p-dropdown>
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'property.kaek' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.kaek">
+            </div>
+          </div>
+          
+        </div>
+        
+        <div class="p-col-12 p-xl-6">
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'property.description' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.description">
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'property.status' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <p-dropdown [(ngModel)]="args.status" [options]="statuses"
+                          placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true">
+              </p-dropdown>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="p-grid text-align-center">
+        <div class="p-col-12 button-container">
+          <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-primary"
+                  icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+          </button>
+          <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-warning"
+                  icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+          </button>
+        </div>
+      </div>
+      
+    </p-panel>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [args]="args"
+                      [loadOnInit]="false"
+                      (rowDblClicked)="rowDblClicked($event)"
+                      (rowSelected)="rowSelected($event)"
+                      (rowUnselected)="rowUnselected($event)">
+    </app-toitsu-table>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12 button-container text-align-end">
+    <button pButton type="button" label="{{'global.confirm' | translate}}" class="p-button-primary"
+            icon="fa fa-check" iconPos="left" (click)="confirm()">
+    </button>
+    <button pButton type="button" label="{{'global.cancel' | translate}}" class="p-button-warning"
+            icon="fa fa-times" iconPos="left" (click)="cancel()">
+    </button>
+  </div>
+</div>

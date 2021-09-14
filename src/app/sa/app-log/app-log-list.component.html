@@ -1,0 +1,103 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <p-panel header="{{'global.args' | translate}}">
+      
+      <div class="p-grid p-fluid">
+        
+        <div class="p-col-12 p-xl-6">
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'appLog.level' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <p-dropdown [(ngModel)]="args.level" [options]="levels"
+                          placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true">
+              </p-dropdown>
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'appLog.date' | translate}}</label>
+            <div class="p-col-12 p-sm-8 p-d-inline-flex p-align-center">
+              <app-toitsu-calendar class="flex-grow" [(model)]="args.dateFrom"></app-toitsu-calendar>
+              &nbsp;-&nbsp;
+              <app-toitsu-calendar class="flex-grow" [(model)]="args.dateTo"></app-toitsu-calendar>
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'appLog.loggerName' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.loggerName">
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'appLog.message' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.message">
+            </div>
+          </div>
+          
+        </div>
+        
+        <div class="p-col-12 p-xl-6">
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'appLog.args.thrownClassName' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.thrownClassName">
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'appLog.args.thrownMethodName' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.thrownMethodName">
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'appLog.args.contextMapUser' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.contextMapUser">
+            </div>
+          </div>
+          
+          <div class="p-grid p-align-center">
+            <label class="p-col-12 p-sm-4">{{'appLog.args.contextMapUrl' | translate}}</label>
+            <div class="p-col-12 p-sm-8">
+              <input type="text" pInputText [(ngModel)]="args.contextMapUrl">
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="p-grid text-align-center">
+        <div class="p-col-12 button-container">
+          <button pButton type="submit" label="{{'global.search' | translate}}" class="p-button-primary"
+                  icon="fa fa-search" iconPos="left" (click)="loadTableData()">
+          </button>
+          <button pButton type="button" label="{{'global.clearArgs' | translate}}" class="p-button-warning"
+                  icon="fa fa-times" iconPos="left" (click)="clearArgs()">
+          </button>
+        </div>
+      </div>
+      
+    </p-panel>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <app-toitsu-table #table
+                      [url]="url"
+                      [cols]="cols"
+                      [sortField]="sortField"
+                      [sortOrder]="sortOrder"
+                      [args]="args"
+                      [loadOnInit]="false">
+    </app-toitsu-table>
+  </div>
+</div>

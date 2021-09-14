@@ -1,0 +1,192 @@
+<form 
+[formGroup]="productForm" 
+(ngSubmit)="onSubmit()">
+
+
+  <div>
+    <h2>Φόρμα Καταχώρησης Προΐόντος</h2>
+  </div>
+
+  <!-- φορμα για id της  -->
+  <div class="p-formgroup-inline">
+    <div class="p-field">
+      <input 
+      id="id_product" 
+      type="text" 
+      pInputText 
+      formControlName="id_product"
+      [class.is-invalid]="productForm.get('id_product').invalid && productForm.get('id_product').touched"
+      placeholder="Barcode Προΐόντος">
+    </div>
+
+    <!-- φορμα για περιγραφή της Προΐόντος -->
+    <div class="p-field">
+      <input 
+      id="description" 
+      type="text" 
+      pInputText 
+      formControlName="description_product"
+      placeholder="Περιγραφή Προΐόντος">
+    </div>
+
+    <!-- φορμα για ποσότητα  Προΐόντος -->
+    <div class="p-field">
+      <input 
+      id="quantity" 
+      type="text" 
+      pInputText 
+      formControlName="quantity_product"
+      placeholder="Ποσότητα Προΐόντος">
+    </div>
+
+    <!-- φορμα για την ραφιου που ανηκει το καθε προιον -->
+    <div 
+    class="p-field" 
+    formGroupName="shelve_product_id">
+      <div>
+        <input 
+        type="text" 
+        pInputText 
+        formControlName="id_shelve"
+        [class.is-invalid]="productForm.get('description_product').invalid && productForm.get('description_product').touched"
+        placeholder="ID Ραφιού" />
+      </div>
+    </div>
+
+    <button 
+    [disabled]='!productForm.valid' 
+    pButton type="submit" 
+    label="Δημιουργία Προΐόντος"
+    class="p-button-success"></button>
+
+    <button 
+    (ngSubmit)="onReset()" 
+    pButton 
+    type="reset" 
+    label="Καθαρισμός Πεδίων" 
+    class="p-button-danger"></button>
+
+  <!-- ΚΟΥΜΠΙ ΟΔΗΓΙΩΝ -->
+  <button 
+  class="p-button-info" 
+  pButton label="Πληροφορίες" 
+  (click)="displayEditDialog = true">
+  </button>
+
+
+
+    
+  </div>
+</form>
+
+
+<!-- alert messages -->
+
+<!-- ΙΔ ΠΡΟΙΟΝΤΟΣ -->
+  <div *ngIf="productForm.get('id_product').invalid && productForm.get('id_product').touched">
+  <small>*Παρακαλώ συμπληρώστε το <strong>Barcode</strong> Προΐόντος</small>
+  <br>
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ID.</small>
+</div> 
+
+<!-- ΠΕΡΙΓΡΑΦΗ ΠΡΟΙΟΝΤΟΣ -->
+<div *ngIf="productForm.get('description_product').invalid && productForm.get('description_product').touched">
+  <small *ngIf="productForm.get('description_product').errors?.required">*Παρακαλώ συμπληρώστε το
+    <strong>description</strong> Προΐόντος
+  </small>
+  <br>
+  <small *ngIf="productForm.get('description_product').errors?.minlength">*Παρακαλώ συμπληρώστε τουλάχιστον
+    <strong>5 ψηφία</strong>
+  </small>
+</div>
+
+<!-- ΠΟΣΟΤΗΤΑ ΠΡΟΙΟΝΤΟΣ -->
+<div *ngIf="productForm.get('quantity_product').invalid && productForm.get('quantity_product').touched">
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ποσότητα.</small>
+</div>
+
+<!-- ΙΔ ΡΑΦΙΟΥ -->
+ <div *ngIf="productForm.get('shelve_product_id.id_shelve').invalid && productForm.get('shelve_product_id.id_shelve').touched">
+  <small>*Παρακαλώ συμπληρώστε το <strong>id</strong> Ραφιού</small>
+  <br>
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ID.</small>
+</div> 
+
+
+<!-- Filter/ Search -->
+  <div class="topnav">
+    <input 
+    type="text" 
+    [(ngModel)]="searchText"
+    placeholder="Aναζήτηση">
+  </div>
+<!-- τραπεζι για να το view των ραφιων -->
+<table #dt class="content-table">
+  <thead>
+    <tr>
+      <th>Barcode Προΐόντος</th>
+      <th>Περιγραφή Προΐόντος</th>
+      <th>Ποσότητα Προΐόντος</th>
+      <th>ID Ραφιού</th>
+      <th class="th-middle-for-form">Επεξεργασία</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pl of productList | searchFilter:searchText ">
+
+      <td>{{pl.id_product}}</td>
+      <td>{{pl.description_product}}</td>
+      <td>{{pl.quantity_product}}</td>
+      <td>{{pl.shelve_product_id.id_shelve}}</td>
+      <td>
+
+      <!-- ΚΟΥΜΠΙ ΕΠΕΞΕΡΓΑΣΙΑΣ -->
+        <button 
+        pButton type="button" 
+        label="Επεξεργασία" 
+        icon="pi pi-bars" 
+        class='viewButton-edit'
+        (click)="showSomething(pl.id_product)">
+        </button>
+
+        <!-- ΚΟΥΜΠΙ ΔΙΑΓΡΑΦΗΣ -->
+        <button 
+        pButton 
+        type="button" 
+        label="Διαγραφή" 
+        icon="pi pi-times-circle" 
+        class='viewButton-delete'
+        (click)="deleteproduct(pl)"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+<button type="button" (click)="showWarehouse()" pButton icon="pi pi-info-circle" label="Αποθήκες">
+</button>
+
+<button type="button" (click)="showShelve()" pButton icon="pi pi-info-circle" label="Ράφια">
+</button>
+
+<button type="button" (click)="showProduct()" pButton icon="pi pi-info-circle" label="Προΐόντα">
+</button>
+
+<button type="button" (click)="showmanagement()" pButton icon="pi pi-info-circle" label="Φόρμα Εγγραφής">
+</button>
+
+
+
+
+<!-- κειμενο για το κουμπι των οδηγιων -->
+<p-dialog header="Φόρμα εγγραφής" [modal]="true" [(visible)]="displayEditDialog">
+  <div>
+    <h3>Lorem ipsum dolor sit amet.</h3>
+    <ul>
+      <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam quam nam, quibusdam expedita quasi officia
+        dignissimos dicta? Dolore quod deserunt pariatur officia mollitia unde aspernatur necessitatibus, vero facere
+        accusamus voluptas.</li>
+    </ul>
+  </div>
+</p-dialog>
+

@@ -1,0 +1,349 @@
+<form [formGroup]="managementForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <h2>Φόρμα Καταχώρησης Εγγραφής</h2>
+  </div>
+
+  <!-- φορμα για id της  -->
+  <div class="p-formgroup-inline">
+    <div class="p-field">
+      <input 
+      id="id_management"
+      type="text" 
+      pInputText 
+      formControlName="id_action"
+      placeholder="ID Εγγραφής"
+      [class.is-invalid]="managementForm.get('id_action').invalid && managementForm.get('id_action').touched">
+    </div>
+
+    <!-- φορμα για περιγραφή τo ειδος Εγγραφής -->
+  <div class="p-field">
+      <input 
+      id="description" 
+      type="text" 
+      pInputText 
+      formControlName="action_description"
+      placeholder="Είδος Εγγραφής">
+    </div> 
+
+    <!-- <div class="select">
+      <select 
+      name="format"
+      id="format"
+      formControlName="action_description" >
+        <option *ngfor="let rl of selectList"
+        [value]="rl.id"
+        >
+        {{rl.ok}}
+      </option>
+      </select>
+    </div> -->
+
+    <!-- φορμα για ημερομηνια της Εγγραφής -->
+    <div class="p-field">
+      <input id="date" type="text" pInputText formControlName="date" placeholder="01-01-1991">
+    </div>
+
+    <!-- φορμα για ποσότητα  Εγγραφής -->
+    <div class="p-field">
+      <input id="quantity" type="text" pInputText formControlName="quantity" placeholder="Ποσότητα">
+    </div>
+    <!-- φορμα για προμηθητευτη  Εγγραφής -->
+    <div class="p-field">
+      <input id="quantity" type="text" pInputText formControlName="supplier" placeholder="Προμηθεύτης">
+    </div>
+    <!-- φορμα για παραλαβων  Εγγραφής -->
+    <div class="p-field">
+      <input id="quantity" type="text" pInputText formControlName="recipient" placeholder="Παραλήπτης">
+    </div>
+
+    <!-- φορμα για την αποθηκη που ανηκει το καθε προιον -->
+    <div class="p-field" formGroupName="war_id" >
+      <div>
+        <input type="text" pInputText formControlName="id_warehouse" placeholder="ID Αποθήκης"
+          [class.is-invalid]="managementForm.get('action_description').invalid && managementForm.get('action_description').touched" />
+      </div>
+    </div>
+    <!-- φορμα για το ραφι της αποθηκης  που ανηκει το καθε προιον -->
+    <div class="p-field" formGroupName="shelve_id" >
+      <div>
+        <input type="text" pInputText formControlName="id_shelve" placeholder="ID Ραφιού"
+          [class.is-invalid]="managementForm.get('action_description').invalid && managementForm.get('action_description').touched" />
+      </div>
+    </div>
+    <!-- φορμα για το προιον μεσα στο ραφι μεσα στην αποθηκη που ανηκει το καθε προιον -->
+    <div class="p-field" formGroupName="product_id" placeholder="ID Προΐόντος" >
+      <div>
+        <input 
+        type="text"
+         pInputText formControlName="id_product" placeholder="ID Προΐόντος"
+         [class.is-invalid]="managementForm.get('action_description').invalid && managementForm.get('action_description').touched" 
+         [(ngModel)] ="id_product_test"
+         />
+      </div>
+    </div>
+
+<!-- KOYMPIA   -->
+
+    <!-- KOYMPI ΔΗΜΙΟΥΡΓΙΑΣ -->
+  <button 
+  [disabled]='!managementForm.valid' 
+  pButton 
+  type="submit" 
+  label="Δημιουργία Εγγραφής"
+  class="p-button-success">
+</button>
+
+      <!-- ΚΟΥΜΠΙ ΔΙΑΓΡΑΦΗΣ -->
+  <button 
+  (ngSubmit)="onReset()" 
+  pButton 
+  type="reset" 
+  label="Καθαρισμός Πεδίων" 
+  class="p-button-danger">
+</button>
+
+  <!-- ΚΟΥΜΠΙ ΟΔΗΓΙΩΝ -->
+  <button 
+  class="p-button-info" 
+  pButton 
+  label="Πληροφορίες" 
+  (click)="displayEditDialog = true">
+  </button>
+  </div>
+</form>
+
+
+<!-- alert messages -->
+<!-- ΙΔ ΕΓΓΡΑΦΗΣ-->
+<div *ngIf="managementForm.get('id_action').invalid && managementForm.get('id_action').touched">
+  <small>*Παρακαλώ συμπληρώστε το <strong>id</strong> Εγγραφής</small>
+  <br>
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ID.</small>
+  <br>
+    <small>*Χρησιμοποιήσετε <strong>0</strong> για καινουρία εγγραφή ή το αντίστοιχο <strong>id</strong> για επεξεργασία</small>
+</div>
+
+<!-- ΕΙΔΟΣ ΕΓΓΡΑΦΗΣ -->
+<div *ngIf="managementForm.get('action_description').invalid && managementForm.get('action_description').touched">
+  <small *ngIf="managementForm.get('action_description').errors?.required">*Παρακαλώ συμπληρώστε το
+    <strong>είδος</strong> της εγγραφής <strong>ΟΧΙ ΚΕΦΑΛΑΙΑ</strong>
+  </small>
+  <br>
+  <small *ngIf="managementForm.get('action_description').errors?.minlength">*Παρακαλώ συμπληρώστε τουλάχιστον
+    <strong>5 ψηφία</strong>
+  </small>
+</div>
+
+<!-- ΗΜΕΡΟΜΗΝΙΑ ΕΓΓΡΑΦΗΣ-->
+<div *ngIf="managementForm.get('date').invalid && managementForm.get('date').touched">
+  <small>*Παρακαλώ συμπληρώστε την ημερομηνία εγγραφής με την μορφή "01-01-1991".</small>
+</div>
+
+<!-- ΠΟΣΟΤΗΤΑ ΕΓΓΡΑΦΗΣ -->
+<div *ngIf="managementForm.get('quantity').invalid && managementForm.get('quantity').touched">
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ποσότητα.</small>
+</div>
+
+<!-- ΠΡΟΜΗΘΕΥΤΗΣ -->
+<div *ngIf="managementForm.get('supplier').invalid && managementForm.get('supplier').touched">
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν προμηθητευτή</small>
+</div>
+
+<!-- ΠΑΡΑΛΗΠΤΗΣ-->
+<div *ngIf="managementForm.get('recipient').invalid && managementForm.get('recipient').touched">
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν παραλήπτη</small>
+</div>
+
+<!-- ID ΑΠΟΘΗΚΗΣ  -->
+<div
+  *ngIf="managementForm.get('war_id.id_warehouse').invalid && managementForm.get('war_id.id_warehouse').touched">
+  <small>*Παρακαλώ συμπληρώστε το <strong>id</strong> Αποθήκης</small>
+  <br>
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ID.</small>
+</div> 
+
+<!-- ID ΡΑΦΙΟΥ  -->
+<div
+  *ngIf="managementForm.get('shelve_id.id_shelve').invalid && managementForm.get('shelve_id.id_shelve').touched">
+  <small>*Παρακαλώ συμπληρώστε το <strong>id</strong> Ραφιού</small>
+  <br>
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ID.</small>
+</div> 
+
+<!-- ID ΠΡΟΙΟΝΤΟΣ -->
+<div
+  *ngIf="managementForm.get('product_id.id_product').invalid && managementForm.get('product_id.id_product').touched">
+  <small>*Παρακαλώ συμπληρώστε το <strong>id</strong> Προΐόντος</small>
+  <br>
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ID.</small>
+</div> 
+
+
+
+<!-- Filter/ Search -->
+<div class="topnav">
+  <input type="text" [(ngModel)]="searchText" placeholder="Aναζήτηση">
+</div>
+<!-- τραπεζι για να το view των ραφιων -->
+<table #dt class="content-table">
+  <thead>
+    <tr>
+      <th>ID Εγγραφής</th>
+      <th>Είδος Εγγραφής</th>
+      <th>Ημερομηνία</th>
+      <th>Ποσότητα Προΐόντος</th>
+      <!-- <th>Stock</th> -->
+      <th>Προμηθεύτης</th>
+      <th>Παραλήπτης</th>
+      <th>Αποθήκη</th>
+      <th>Ράφι</th>
+      <th>Προΐόν</th>
+      <th class="th-middle-for-form">Επεξεργασία</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let ml of managementList  |  searchFilter:searchText">
+
+      <td>{{ml.id_action}}</td>
+      <td>{{ml.action_description }}</td>
+      <td>{{ml.date}}</td>
+      <td>{{ml.quantity}}</td>
+      <!-- <td>{{ml.product_id.quantity_product}}</td> -->
+      <td>{{ml.supplier}}</td>
+      <td>{{ml.recipient}}</td>
+      <td>{{ml.war_id.id_warehouse}}</td>
+      <td>{{ml.shelve_id.id_shelve}}</td>
+      <td>{{ml.product_id.id_product}}</td>
+      <td>
+              <button 
+              pButton 
+              type="button" 
+              label="Επεξεργασία" 
+              icon="pi pi-bars" 
+              class='viewButton-edit'
+                (click)="showSomething(ml.id_action)"></button>
+              <button 
+              pButton 
+              type="button" 
+              label="Διαγραφή" 
+              icon="pi pi-times-circle" 
+              class='viewButton-delete'
+                (click)="deletemanagement(ml)"></button>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- View για το part5 της ασκησης spring -->
+<h5>Υπηρεσία Αναζήτησης Αποθέματος</h5>
+<div class="p-grid p-fluid">
+  <div class="p-col-12 p-md-4">
+    <div class="p-inputgroup">
+      <button type="button" pButton pRipple label="Εύρεση Αποθέματος" (click)="hello2()"></button>
+      <input type="text" pInputText placeholder="Barcode Προΐόντος" [(ngModel)]="barcode">
+      <input type="text" pInputText placeholder="Ημερομηνία" [(ngModel)]="date">
+    </div>
+  </div>
+</div>
+
+<div>
+  <table d class="content-table">
+    <thead (click)="displayBarcodeDate ? true : false ">
+      <tr>
+        <th>Ημερομηνία</th>
+        <th>ID Ράφιου</th>
+        <th>Ποσότητα Προΐόντος</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bd of barcodeAndDateList">
+        <td>{{bd.date}}</td>
+        <td>{{bd.id_shelve}}</td>
+        <!-- for the last part only for view  -->
+        <td>{{bd.quantity_product - bd.quantity}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<hr>
+
+
+<button 
+type="button" 
+(click)="showWarehouse()" 
+pButton icon="pi pi-info-circle" 
+label="Αποθήκες">
+</button>
+
+<button 
+type="button" 
+(click)="showShelve()" 
+pButton 
+icon="pi pi-info-circle" 
+label="Ράφια">
+</button>
+
+<button 
+type="button" 
+(click)="showProduct()" 
+pButton icon="pi pi-info-circle" 
+label="Προΐόντα">
+</button>
+
+<button 
+type="button" 
+(click)="showmanagement()" 
+pButton 
+icon="pi pi-info-circle" 
+label="Φόρμα Εγγραφής">
+</button>
+
+
+<!-- κειμενο για το κουμπι των οδηγιων -->
+<p-dialog header="Φόρμα εγγραφής" [modal]="true" [(visible)]="displayEditDialog">
+  <div>
+    <h3>Πληροφορίες πως να χρησιμοποιήσετε σωστά την φόρμα Εγγραφής</h3>
+    <ul>
+      <li>
+        Στην <strong>πρώτη φόρμα</strong>  συμπληρώνουμε το <strong>id </strong> εγγραφής που θέλουμε να καταχωρήσουμε και σε περιπτώση που είναι <strong>καινουρία εγγραφή συμπληρώνουμε το id 0</strong>.
+      </li>
+      <li>
+        Στην <strong>δεύτερη φόρμα</strong>  συμπληρώνουμε την <strong>περιγραφή </strong> εγγραφής που θέλουμε να καταχωρήσουμε , <strong>"ΕΙΣΑΓΩΓΗ"</strong>  ή  <strong>"ΕΞΑΓΩΓΗ</strong> χωρίς κενά.
+      </li>
+      <li>
+        Στην <strong>τρίτη φόρμα</strong> συμπληρώνουμε την <strong>ημερομηνία</strong> της εγγραφής με την μορφή <strong>"01-01-1991"</strong>.
+      </li>
+      <li>
+        Στην <strong>τέταρτη φόρμα</strong>  συμπληρώνουμε την <strong>ποσότητα</strong>  της εγγραφής <strong>χωρίς κενά και αλφαριθμητικά</strong>. 
+      </li>
+      <li>
+        Στην <strong>πέμπτη φόρμα</strong> συμπληρώνουμε τον <strong>προμηθευτή</strong>  και πρέπει να αποτελείται <strong>τουλάχιστον</strong> απο <strong>3 ψηφία</strong>.
+      </li>
+      <li>
+        Στην <strong>έκτη φόρμα</strong> συμπληρώνουμε τον <strong>παραλήπτη</strong> και πρέπει να αποτελείται
+        <strong>τουλάχιστον</strong> απο <strong>3 ψηφία</strong>.
+      </li>
+      <li>
+        Στην <strong>έβδομη φόρμα</strong> συμπληρώνουμε το <strong>id της αποθήκης</strong>  και πρέπει να είναι <strong>θετικός αριθμός χωρίς κενά</strong>.
+      </li>
+      <li>
+        Στην <strong>ογδοή φόρμα</strong> συμπληρώνουμε το <strong>id του Ραφιού</strong> και πρέπει να είναι <strong>θετικός αριθμός χωρίς κενά</strong>.
+      </li>
+      <li>
+        Στην <strong>ένατη φόρμα</strong>  συμπληρώνουμε το <strong>id του προΐόντος</strong> και πρέπει να είναι <strong>θετικός αριθμός χωρίς κενά</strong>.
+      </li>
+    </ul>
+
+    <!-- <h4>Στην περίπτωση που καταχώρησουμε εγγραφή που δεν υπάρχει η συγκεκριμένη οντότητα, είτε αποθήκη,είτε ράφι, είτε το προΐόν θα σας έρθει οι ειδοποίηση οτι το αίτημα στάλθηκε με επιτυχία <strong>ΑΛΛΑ Η ΕΓΓΡΑΦΗ ΣΑΣ ΘΕΩΡΕΙΤΕ ΑΚΥΡΗ ΚΑΙ ΑΠΟΡΡΙΠΤΕΤΑΙ ΑΥΤΟΜΑΤΑ</strong></h4> -->
+  </div>
+
+</p-dialog>
+
+
+
+

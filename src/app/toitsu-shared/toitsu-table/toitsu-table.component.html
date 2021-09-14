@@ -1,0 +1,79 @@
+<p-table [columns]="cols" [value]="data" [lazy]="true" (onLazyLoad)="loadTableData($event)"
+         [lazyLoadOnInit]="lazyLoadOnInit"
+         [paginator]="true" [rowsPerPageOptions]="rowsPerPageOptions"
+         [first]="first" [rows]="rows" [sortField]="sortField" [sortOrder]="sortOrder"
+         [totalRecords]="totalRecords" [loading]="loading"
+         [selectionMode]="selectionMode" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+         [scrollable]="true" scrollHeight="300px" [responsive]="true"
+         styleClass="p-datatable-gridlines p-datatable-striped">
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col *ngFor="let col of columns" [style.width]="col.width">
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.sortField">
+        <div class="p-d-flex p-jc-center p-ai-center text-align-center">
+          <strong>{{col.header}}</strong>
+          <p-sortIcon *ngIf="col.sortField" [field]="col.sortField"></p-sortIcon>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="rowData" (click)="onRowClick(rowData)" (dblclick)="onRowDblClick(rowData)">
+      <td *ngFor="let col of columns; let i = index" [style.text-align]="col.align">
+        
+        <!-- Header for responsive mobile view -->
+        <span class="p-column-title">{{col.header}}</span>
+        
+        <!--Normal Cell -->
+        <span *ngIf="!col.customCell">{{rowData[col.field]}}</span>
+        
+        <!-- Row num -->
+        <span *ngIf="col.field === 'rowNum'">{{rowIndex + 1}}</span>
+        
+        <!-- Extra actions -->
+        <a *ngIf="col.field === 'extraActions'" class="cursor-pointer"
+           href="{{viewLink}}/{{rowData.id}}" target="_blank"
+           pTooltip="{{'global.edit' | translate}}" tooltipPosition="right">
+          <i class="fa fa-edit"></i>
+        </a>
+        
+        <!-- Embedded custom cell -->
+        <span *ngIf="col.customCell === 'embedded'" innerHTML="{{col.applyFunc(rowData, col.field)}}"></span>
+        
+        <!-- Custom cell 1 -->
+        <span *ngIf="col.customCell === 'cell1'">
+          <ng-container [ngTemplateOutlet]="cell1Ref" [ngTemplateOutletContext]="{$implicit:rowData}"></ng-container>
+        </span>
+        
+        <!-- Custom cell 2 -->
+        <span *ngIf="col.customCell === 'cell2'">
+          <ng-container [ngTemplateOutlet]="cell2Ref" [ngTemplateOutletContext]="{$implicit:rowData}"></ng-container>
+        </span>
+        
+        <!-- Custom cell 3 -->
+        <span *ngIf="col.customCell === 'cell3'">
+          <ng-container [ngTemplateOutlet]="cell3Ref" [ngTemplateOutletContext]="{$implicit:rowData}"></ng-container>
+        </span>
+        
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <button type="button" pButton pRipple *ngIf="excel && exportModel"
+            icon="pi pi-file-excel" class="p-button-success p-mr-2" aria-label="Export to Excel"
+            pTooltip="{{'global.table.exportToExcel' | translate}}" tooltipPosition="bottom"
+            (click)="exportToExcel()">
+    </button>
+  </ng-template>
+  <ng-template pTemplate="paginatorright" let-state let-rowData>
+    <span *ngIf="data" class="padding-right-5">
+      # {{(state.first + 1) > state.totalRecords ? state.totalRecords : (state.first + 1)}} 
+      - {{(state.first + state.rows) > state.totalRecords ? state.totalRecords : (state.first + state.rows)}} 
+      {{'global.table.from' | translate}} {{state.totalRecords}}
+    </span>
+  </ng-template>
+</p-table>

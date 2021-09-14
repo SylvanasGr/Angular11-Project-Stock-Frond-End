@@ -1,0 +1,158 @@
+<form 
+[formGroup]="shelveForm" 
+(ngSubmit)="onSubmit()">
+
+  <div>
+    <h2>Φόρμα Καταχώρησης Ραφιού</h2>
+  </div>
+
+  <!-- φορμα για id της  -->
+  <div class="p-formgroup-inline">
+    <div class="p-field">
+      <input 
+      id="id_shelve" 
+      type="text" 
+      pInputText 
+      formControlName="id_shelve"
+      [class.is-invalid]="shelveForm.get('id_shelve').invalid && shelveForm.get('id_shelve').touched"
+      placeholder="ID Ραφιού">
+    </div>
+
+    <!-- φορμα για περιγραφή της Ραφιού -->
+    <div class="p-field">
+      <input 
+      id="description" 
+      type="text" 
+      pInputText 
+      formControlName="description_shelve"
+      placeholder="Περιγραφή Ραφιού">
+    </div>
+
+    <!-- φορμα για την αποθηκη που ανηκει το καθε ραφι -->
+      <div 
+      class="p-field" 
+      formGroupName="war_id">
+      <div>
+        <input 
+        type="text" 
+        pInputText 
+        formControlName="id_warehouse"
+        [class.is-invalid]="shelveForm.get('description_shelve').invalid && shelveForm.get('description_shelve').touched"
+        placeholder="ID Αποθήκης"/>
+      </div>
+    </div>
+
+    <button [disabled]='!shelveForm.valid' pButton type="submit" label="Δημιουργία Ραφιού"
+      class="p-button-success"></button>
+
+    <button 
+    (ngSubmit)="onReset()" 
+    pButton type="reset" 
+    label="Καθαρισμός Πεδίων" 
+    class="p-button-danger"></button>
+
+      <!-- ΚΟΥΜΠΙ ΟΔΗΓΙΩΝ -->
+      <button class="p-button-info" pButton label="Πληροφορίες" (click)="displayEditDialog = true">
+      </button>
+
+
+  </div>
+</form>
+
+<!-- alert messages -->
+<div *ngIf="shelveForm.get('id_shelve').invalid && shelveForm.get('id_shelve').touched">
+  <small>*Παρακαλώ συμπληρώστε το <strong>id</strong> Ραφιού</small>
+  <br>
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ID.</small>
+</div>
+
+<div *ngIf="shelveForm.get('description_shelve').invalid && shelveForm.get('description_shelve').touched">
+  <small *ngIf="shelveForm.get('description_shelve').errors?.required">*Παρακαλώ συμπληρώστε το
+    <strong>description</strong> Ραφιού
+  </small>
+  <br>
+  <small *ngIf="shelveForm.get('description_shelve').errors?.minlength">*Παρακαλώ συμπληρώστε τουλάχιστον
+    <strong>5 ψηφία</strong>
+  </small>
+</div>
+
+<div *ngIf="shelveForm.get('war_id.id_warehouse').invalid && shelveForm.get('war_id.id_warehouse').touched">
+  <small>*Παρακαλώ συμπληρώστε το <strong>id</strong> Αποθήκης</small>
+  <br>
+  <small>*Δεν μπορείτε να χρησιμοποιήσετε <strong>κενά</strong> ή <strong>αλφαριθμητικά</strong> σαν ID.</small>
+</div>
+
+<!-- Filter/ Search -->
+<div class="topnav">
+  <input 
+  type="text" 
+  [(ngModel)]="searchText" 
+  placeholder="Aναζήτηση">
+</div>
+
+<!-- τραπεζι για να το view των ραφιων -->
+<table 
+#dt 
+class="content-table">
+  <thead>
+    <tr>
+      <th>ID Ραφιού</th>
+      <th>Περιγραφή Ραφιού</th>
+      <th>ID Αποθήκης</th>
+      <th class="th-middle-for-form">Επεξεργασία</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let wl of shelveList |  searchFilter:searchText">
+
+      <td>{{wl.id_shelve}}</td>
+      <td>{{wl.description_shelve}}</td>
+      <td>{{wl.war_id.id_warehouse}}</td>
+      <td>
+
+        <button 
+        pButton 
+        type="button" 
+        label="Επεξεργασία" 
+        icon="pi pi-bars" 
+        class='viewButton-edit'
+          (click)="showSomething(wl.id_shelve)"></button>
+
+        <button 
+        pButton 
+        type="button" 
+        label="Διαγραφή" 
+        icon="pi pi-times-circle" 
+        class='viewButton-delete'
+          (click)="deleteshelve(wl)"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<hr>
+<button type="button" (click)="showWarehouse()" pButton icon="pi pi-info-circle" label="Αποθήκες">
+</button>
+
+<button type="button" (click)="showShelve()" pButton icon="pi pi-info-circle" label="Ράφια">
+</button>
+
+<button type="button" (click)="showProduct()" pButton icon="pi pi-info-circle" label="Προΐόντα">
+</button>
+
+<button type="button" (click)="showmanagement()" pButton icon="pi pi-info-circle" label="Φόρμα Εγγραφής">
+</button>
+
+
+<!-- κειμενο για το κουμπι των οδηγιων -->
+<p-dialog header="Φόρμα εγγραφής" [modal]="true" [(visible)]="displayEditDialog">
+  <div>
+    <h3>Lorem ipsum dolor sit amet.</h3>
+    <ul>
+      <li>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam quam nam, quibusdam expedita quasi officia
+        dignissimos dicta? Dolore quod deserunt pariatur officia mollitia unde aspernatur necessitatibus, vero facere
+        accusamus voluptas.</li>
+    </ul>
+  </div>
+</p-dialog>

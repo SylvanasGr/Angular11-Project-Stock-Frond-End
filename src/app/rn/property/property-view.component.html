@@ -1,0 +1,255 @@
+<form *ngIf="propertyForm" [formGroup]="propertyForm">
+  
+  <div class="p-grid">
+    <div class="p-col-12 button-container">
+      <button pButton type="button"
+              label="{{'global.save' | translate}}" class="p-button-success"
+              icon="fa fa-save" iconPos="left" (click)="saveProperty()">
+      </button>
+      <button pButton type="button" *ngIf="id && authService.hasPermission('rn_property_delete')"
+              label="{{'global.delete' | translate}}" class="p-button-danger"
+              icon="fa fa-trash" iconPos="left" (click)="deleteProperty()">
+      </button>
+      <button pButton type="button"
+              label="{{'property.view.setObjectiveValue' | translate}}" class="p-button-primary"
+              icon="fa fa-magic" iconPos="left" (click)="setObjectiveValue()">
+      </button>
+      <button pButton type="button"
+              label="{{'property.view.setTestPropertyId' | translate}}" class="p-button-warning"
+              icon="fa fa-flask" iconPos="left" (click)="setTestPropertyId()">
+      </button>
+    </div>
+  </div>
+  
+  <div class="p-grid">
+    
+    <div class="p-col-12 p-xl-6 p-fluid">
+      <p-panel header="{{'property.view.propertyData' | translate}}">
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.kaek' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <input type="text" pInputText formControlName="kaek">
+          </div>
+        </div>
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.description' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <input type="text" pInputText formControlName="description">
+          </div>
+        </div>
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.propertyTypeId' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <p-dropdown formControlName="propertyTypeId" [options]="propertyTypes" optionValue="id" optionLabel="description"
+                        placeholder="{{'global.selectOption' | translate}}" [showClear]="true" [filter]="true"
+                        (onChange)="propertyTypeIdChanged($event)">
+            </p-dropdown>
+          </div>
+        </div>
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.manufactureDate' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <app-toitsu-calendar controlName="manufactureDate" [showTime]="true"></app-toitsu-calendar>
+          </div>
+        </div>
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.objectiveValue' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <input type="text" pInputText appToitsuNumber [isFloat]="true" [decimals]="3" formControlName="objectiveValue">
+          </div>
+        </div>
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.status' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <span *ngFor="let item of statuses">
+              <p-radioButton name="status" formControlName="status" value="{{item.value}}" label="{{item.label}}"
+                             (onClick)="statusChanged()">
+              </p-radioButton>
+            </span>
+          </div>
+        </div>
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.isActive' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <p-checkbox binary="true" [formControl]="propertyForm.controls['isActive']"></p-checkbox>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+    
+    <div class="p-col-12 p-xl-6 p-fluid">
+      <p-panel header="{{'property.view.moreData' | translate}}">
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.comments' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <textarea pInputTextarea formControlName="comments" rows="8"></textarea>
+          </div>
+        </div>
+        
+        <div class="p-grid p-align-center">
+          <label class="p-col-12 p-sm-4">{{'property.select.label' | translate}}</label>
+          <div class="p-col-12 p-sm-8">
+            <app-select-property #selectProperty controlName="municipalityId"></app-select-property>
+          </div>
+        </div>
+        
+      </p-panel>
+    </div>
+    
+  </div>
+  
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-tabView>
+        
+        <p-tabPanel header="{{'property.view.tab.urbanFixes' | translate}}">
+          
+          <div class="p-grid">
+            <div class="p-col-12">
+              <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-primary"
+                      icon="fa fa-plus" iconPos="left"
+                      (click)="addUrbanFix()">
+              </button>
+            </div>
+          </div>
+          
+          <div class="p-grid">
+            
+            <div class="p-col-12 p-xl-6">
+              
+              <p-accordion [activeIndex]="urbanFixesActiveIndex" (onOpen)="onUrbanFixOpen($event)" (onClose)="onUrbanFixClose($event)">
+                
+                <p-accordionTab *ngFor="let urbanFixCtrl of getUrbanFixControls(); let i = index">
+                  <p-header>{{'property.view.tab.urbanFixes.item' | translate}} {{i+1}}</p-header>
+                  <div class="p-grid" [formGroup]="urbanFixCtrl">
+                    
+                    <div class="p-col-12 p-fluid">
+                      
+                      <div class="p-grid p-align-center">
+                        <label class="p-col-12 p-sm-4">{{'urbanFix.kind' | translate}}</label>
+                        <div class="p-col-12 p-sm-8">
+                          <p-dropdown formControlName="kind" [options]="urbanFixKinds"
+                                      placeholder="{{'global.selectOption' | translate}}" [showClear]="true">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                      
+                      <div class="p-grid p-align-center">
+                        <label class="p-col-12 p-sm-4">{{'urbanFix.fixDate' | translate}}</label>
+                        <div class="p-col-12 p-sm-8">
+                          <app-toitsu-calendar controlName="fixDate"></app-toitsu-calendar>
+                        </div>
+                      </div>
+                      
+                      <div class="p-grid p-align-center">
+                        <label class="p-col-12 p-sm-4">{{'urbanFix.comments' | translate}}</label>
+                        <div class="p-col-12 p-sm-8">
+                          <input type="text" pInputText formControlName="comments">
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+                  
+                  <div class="p-grid">
+                    <div class="p-col-12 text-align-center">
+                      <button pButton type="button" label="{{(urbanFixCtrl.value.id ? 'global.delete' : 'global.remove') | translate}}" class="p-button-danger"
+                              icon="fa fa-minus" iconPos="left"
+                              (click)="deleteUrbanFix(i, urbanFixCtrl.value.id)">
+                      </button>
+                    </div>
+                  </div>
+                  
+                </p-accordionTab>
+                
+              </p-accordion>
+              
+            </div>
+            
+          </div>
+          
+        </p-tabPanel>
+        
+        <p-tabPanel header="{{'property.view.tab.propertyWeights' | translate}}">
+          
+          <div class="p-grid">
+            <div class="p-col-12">
+              <button pButton type="button" label="{{'global.add' | translate}}" class="p-button-primary"
+                      icon="fa fa-plus" iconPos="left"
+                      (click)="addPropertyWeight()">
+              </button>
+            </div>
+          </div>
+          
+          <div class="p-grid">
+            
+            <div class="p-col-12">
+              <p-table [value]="getPropertyWeightControls()" [scrollable]="true" scrollHeight="300px" styleClass="p-datatable-gridlines p-datatable-striped">
+                <ng-template pTemplate="colgroup">
+                  <colgroup>
+                    <col [style.width]="'5px'">
+                    <col [style.width]="'25px'">
+                    <col [style.width]="'25px'">
+                    <col [style.width]="'40px'">
+                    <col [style.width]="'5px'">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>#</th>
+                    <th>{{'propertyWeight.kind' | translate}}</th>
+                    <th>{{'propertyWeight.weightDate' | translate}}</th>
+                    <th>{{'propertyWeight.comments' | translate}}</th>
+                    <th></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-propertyWeightCtrl let-rowIndex="rowIndex">
+                  <tr class="p-fluid" [formGroup]="propertyWeightCtrl">
+                    
+                    <td [style.text-align]="'center'">{{rowIndex + 1}}</td>
+                    
+                    <td>
+                      <p-dropdown formControlName="kind" [options]="propertyWeightKinds"
+                                  placeholder="{{'global.selectOption' | translate}}" [showClear]="true">
+                      </p-dropdown>
+                    </td>
+                    
+                    <td>
+                      <app-toitsu-calendar controlName="weightDate"></app-toitsu-calendar>
+                    </td>
+                    
+                    <td>
+                      <textarea pInputTextarea formControlName="comments" rows="3"></textarea>
+                    </td>
+                    
+                    <td [style.text-align]="'center'">
+                      <button pButton type="button" class="p-button-danger" icon="{{(propertyWeightCtrl.value.id ? 'fa fa-times' : 'fa fa-minus')}}" iconPos="left"
+                              pTooltip="{{(propertyWeightCtrl.value.id ? 'global.delete' : 'global.remove') | translate}}" tooltipPosition="top"
+                              (click)="deletePropertyWeight(rowIndex, propertyWeightCtrl.value.id)">
+                      </button>
+                    </td>
+                    
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            
+          </div>
+          
+        </p-tabPanel>
+        
+      </p-tabView>
+    </div>
+  </div>
+  
+</form>

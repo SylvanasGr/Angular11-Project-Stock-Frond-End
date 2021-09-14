@@ -1,0 +1,63 @@
+<div class="layout-topbar">
+  
+  <a class="logo" routerLink="">
+    <img src="assets/layout/images/logo.png" alt="app-logo"/>
+  </a>
+  
+  <a id="menu-button" href="#" (click)="app.onMenuButtonClick($event)" aria-label="Toggle Menu">
+    <i class="fa fa-align-left"></i>
+  </a>
+  
+  <span class="item-container">
+    
+    <span class="topbar-orgname" *ngIf="(app.profileMode==='top' || app.isHorizontal()) && authService.getUserOrgName()">
+      <i class="pi pi-home"></i>
+      {{authService.getUserOrgName()}}
+    </span>
+    
+    <span class="topbar-language">
+      <a (click)="languageOverlayPanel.toggle($event)">
+        <img *ngIf="currentLanguage === 'en'" src="assets/layout/images/flags/en.png" alt="app-flag-en"/>
+        <img *ngIf="currentLanguage === 'el'" src="assets/layout/images/flags/el.png" alt="app-flag-el"/>
+      </a>
+    </span>
+    
+    <a id="topbar-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)"
+       *ngIf="(app.profileMode==='top' || app.isHorizontal()) && authService.isLoggedIn()">
+      <img src="assets/layout/images/avatar.png" alt="app-user">
+      <span>{{authService.getUserDisplayName()}}</span>
+    </a>
+    
+    <a class="login-button" href="#" (click)="login($event)" *ngIf="!authService.isLoggedIn()">
+      <i class="pi pi-sign-in"></i>
+      <span>{{'global.login' | translate}}</span>
+    </a>
+    
+  </span>
+  
+  <p-overlayPanel #languageOverlayPanel styleClass="language-overlaypanel">
+    <div *ngIf="currentLanguage !== 'en'">
+      <a (click)="languageOverlayPanel.hide(); changeLanguage('en')">
+        <img src="assets/layout/images/flags/en.png" alt="app-flag-en"/>
+        {{'global.english' | translate}}
+      </a>
+    </div>
+    <div *ngIf="currentLanguage !== 'el'">
+      <a (click)="languageOverlayPanel.hide(); changeLanguage('el')">
+        <img src="assets/layout/images/flags/el.png" alt="app-flag-el"/>
+        {{'global.greek' | translate}}
+      </a>
+    </div>
+  </p-overlayPanel>
+  
+  <ul id="topbar-usermenu" class="usermenu usermenu-overlay fadeInDown"
+      [ngClass]="{'usermenu-active': app.topbarMenuActive}">
+    <li #profile [ngClass]="{'menuitem-active':app.activeTopbarItem === profile}">
+      <a href="#" (click)="logout($event)">
+        <i class="pi pi-sign-out"></i>
+        <span class="topbar-item-name">{{'global.logout' | translate}}</span>
+      </a>
+    </li>
+  </ul>
+
+</div>
